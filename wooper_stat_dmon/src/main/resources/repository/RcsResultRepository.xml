@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wn.wooper.stat.mapper.RcsResultMapper">
+
+    <select id="selectRcsResult" parameterType="string">
+		SELECT 
+			MSEQ, CHANNEL_ID, RECEIVER, SEND_TYPE, RESULT, MESSAGE, PRICE_RCS, PRICE_REP, DATE
+		FROM RCS_RESULT_${value}
+		WHERE 1=1
+		AND DATE > NOW() - INTERVAL 10 SECOND
+    </select>
+    
+    <insert id="insertRcsResult" parameterType="map">
+		INSERT IGNORE INTO wooper_total_stat 
+		(mseq, channel_id, receiver_phone, sender_phone, send_type, message_group, message_type, result, result_message, message, price, price_rep, send_time, save_time, replace_yn)
+		VALUES 
+		(
+			#{mseq}
+			, #{channel_id}
+			, #{receiver_phone}
+			, #{sender_phone}
+			, #{send_type}
+			, #{message_group}
+			, #{message_type}
+			, #{result}
+			, #{result_message}
+			, #{message}
+			, #{price}
+			, #{price_rep}
+			, #{send_time}
+			, NOW()
+			, #{replace_yn}
+		)
+		
+    </insert>
+</mapper>
