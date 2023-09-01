@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.wn.wooper.stat.fetch.BulkMsgResultTable;
+import com.wn.wooper.stat.fetch.DeleteStatData;
 import com.wn.wooper.stat.fetch.MsgResultTable;
 import com.wn.wooper.stat.fetch.RcsResultTable;
 import com.wn.wooper.stat.fetch.SejongResultTable;
@@ -25,9 +26,11 @@ public class WooperStatFetcher {
 	@Autowired
 	private RcsResultTable rcsResultTable;
 	
+	@Autowired
+	private DeleteStatData deleteStatData;
 	
 	// 초 - 분 - 시 - 일 - 월 - 요일
-	@Scheduled( fixedDelay = 1000 * 60 * 10)
+	@Scheduled( fixedDelay = 1000 )
 	private void runStatFetcher() {
 		
 		try {
@@ -54,9 +57,15 @@ public class WooperStatFetcher {
 		
 	}
 	
-	// 6개월 지난 데이터 삭제 처리 .. 
-	
-	// 데몬 재기동시... 히스토리 테이블을 하나 만들고 메소드 실행 시 한번씩 보자.. 
-	// 상태값 업데이트 해주면 되지 않을까???
+//	@Scheduled( fixedDelay = 1000 * 10 * 60)
+	@Scheduled( cron = "0 10 2 1 * *" )
+	private void runStatDel() {
+		// 6개월 지난 데이터 삭제 처리 .. 
+		try {
+			deleteStatData.rudDeleteStatData();
+		} catch ( Exception e ) {
+			log.error(e.toString() );
+		}
+	}
 	
 }

@@ -14,9 +14,6 @@
 	-->
 	
 	<property name="FILE_LOG_PATH" value="/data/log/wooper_stat_log" />
-	
-	
-
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

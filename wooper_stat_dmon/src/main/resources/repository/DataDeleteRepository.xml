@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wn.wooper.stat.mapper.DeleteStatDataMapper">
+
+    <delete id="deleteStatData" parameterType="java.lang.String">
+		<![CDATA[
+		DELETE FROM wooper_total_stat WHERE send_time < (NOW() - INTERVAL ${value} DAY);
+		]]>
+	</delete>
+	
+</mapper>
